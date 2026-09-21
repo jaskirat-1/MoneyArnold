@@ -1,0 +1,89 @@
+{
+  "profile": {
+    "current_balance": 1200000,
+    "monthly_income": 60000,
+    "monthly_expenses": 30000,
+    "upcoming_bills": 25000,
+    "savings_goal": 200000,
+    "current_savings": 80000,
+    "planned_purchase": {
+      "item": "Laptop",
+      "amount": 50000
+    }
+  },
+  "budgets": [
+    {
+      "category": "Food",
+      "amount": 10000
+    },
+    {
+      "category": "Transport",
+      "amount": 5000
+    },
+    {
+      "category": "Shopping",
+      "amount": 8000
+    },
+    {
+      "category": "Entertainment",
+      "amount": 3000
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx-1",
+      "merchant": "Swiggy",
+      "amount": 2500,
+      "category": "Food",
+      "confidence": "high",
+      "date": "2026-09-02"
+    },
+    {
+      "id": "tx-2",
+      "merchant": "Uber",
+      "amount": 1200,
+      "category": "Transport",
+      "confidence": "high",
+      "date": "2026-09-05"
+    },
+    {
+      "id": "tx-3",
+      "merchant": "Amazon",
+      "amount": 4500,
+      "category": "Shopping",
+      "confidence": "medium",
+      "date": "2026-09-10"
+    },
+    {
+      "id": "tx-4",
+      "merchant": "Netflix",
+      "amount": 649,
+      "category": "Entertainment",
+      "confidence": "high",
+      "date": "2026-09-12"
+    },
+    {
+      "id": "tx-5",
+      "merchant": "Electricity",
+      "amount": 2500,
+      "category": "Bills",
+      "confidence": "high",
+      "date": "2026-09-15"
+    },
+    {
+      "id": "tx-6",
+      "merchant": "College Books",
+      "amount": 1500,
+      "category": "Shopping",
+      "confidence": "medium",
+      "date": "2026-09-18"
+    }
+  ],
+  "pending_action": {
+    "type": "reserve_bill_funds",
+    "description": "Reserve \u20b925,000 from main balance to safeguard upcoming expenses.",
+    "amount": 25000.0,
+    "status": "pending_confirmation"
+  },
+  "action_history": []
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Buddy | Azure AI Foundry</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="brand-icon">₹</div>
+        <div>
+          <h1>Financial Buddy</h1>
+          <p class="subtitle">AI Assistant powered by Microsoft Azure AI Foundry</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="backend-status" class="badge badge-neutral">Checking Connection...</span>
+        <button id="btn-open-add-tx" class="btn btn-secondary">
+          <span class="btn-icon">➕</span> Add Expense
+        </button>
+        <button id="btn-open-edit-profile" class="btn btn-secondary">
+          <span class="btn-icon">⚙️</span> Edit Profile & Goal
+        </button>
+        <button id="btn-reset-demo" class="btn btn-secondary" title="Reset to initial test data">
+          <span class="btn-icon">↺</span> Reset
+        </button>
+        <button id="run-analysis-btn" class="btn btn-primary">
+          <span class="btn-icon">⚡</span> Run AI Workflow
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+      
+      <!-- Top Overview Cards -->
+      <section class="overview-grid">
+        <div class="card metric-card">
+          <span class="metric-label">Current Main Balance</span>
+          <div class="metric-value" id="val-balance">₹120,000</div>
+          <span class="metric-sub text-success">Liquid Available Funds</span>
+        </div>
+
+        <div class="card metric-card">
+          <span class="metric-label">Monthly Income / Surplus</span>
+          <div class="metric-value" id="val-income">₹60,000</div>
+          <span class="metric-sub" id="val-surplus">Net Surplus: +₹30,000/mo</span>
+        </div>
+
+        <div class="card metric-card">
+          <span class="metric-label">Emergency Savings Goal</span>
+          <div class="metric-value" id="val-savings">₹80,000 <small class="text-muted">/ ₹200,000</small></div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="savings-progress-bar" style="width: 40%"></div>
+          </div>
+          <span class="metric-sub text-warning" id="savings-gap-text">Goal Shortfall: ₹120,000 (4 months away)</span>
+        </div>
+
+        <div class="card metric-card">
+          <span class="metric-label">Planned Purchase</span>
+          <div class="metric-value" id="val-purchase">Laptop: ₹50,000</div>
+          <span class="metric-sub" id="val-bills">Upcoming Bills: ₹5,000</span>
+        </div>
+      </section>
+
+      <!-- Interactive Alert & Action Center (Agent 3) -->
+      <section class="card action-center-card" id="action-center-section">
+        <div class="section-header">
+          <div class="title-with-pill">
+            <h2>Agent 3: Proactive Alerts & Simulated Action</h2>
+            <span class="badge badge-accent">Human Confirmation Required</span>
+          </div>
+          <p class="section-desc">Real-time alerts and simulated financial protection. No real money or bank transfers are executed.</p>
+        </div>
+
+        <div id="alerts-container" class="alerts-list">
+          <!-- Dynamic Alerts Injected Here -->
+        </div>
+
+        <!-- Simulated Confirmation Box -->
+        <div id="confirmation-box" class="confirmation-box hidden">
+          <div class="confirmation-header">
+            <div class="confirm-icon">🛡️</div>
+            <div>
+              <h3 id="confirm-action-title">Action Pending Confirmation</h3>
+              <p id="confirm-action-desc">Would you like to reserve funds?</p>
+            </div>
+          </div>
+          <div class="confirmation-buttons">
+            <button id="btn-cancel-action" class="btn btn-secondary">✗ Dismiss</button>
+            <button id="btn-confirm-action" class="btn btn-success">✓ Confirm Mock Action</button>
+          </div>
+        </div>
+
+        <div id="action-status-banner" class="status-banner hidden"></div>
+      </section>
+
+      <!-- Two-Column Grid: Agent 1 (Analyzer) & Agent 2 (Planner) -->
+      <div class="two-col-grid">
+        
+        <!-- Left Column: Agent 1 - Financial Analyzer -->
+        <section class="card">
+          <div class="section-header">
+            <div class="title-with-pill">
+              <h2>Agent 1: Financial Analyzer</h2>
+              <span class="badge badge-info">Categorization & Budgets</span>
+            </div>
+            <p class="section-desc">Monitors spending limits, flags warnings, and identifies unbudgeted expenses.</p>
+          </div>
+
+          <!-- Budget Utilization Bars -->
+          <div class="budget-section">
+            <h3>Budget Utilization</h3>
+            <div id="budget-bars-list" class="budget-bars-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Transactions Table -->
+          <div class="transactions-section">
+            <h3>Recent Categorized Transactions</h3>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Merchant</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Confidence</th>
+                    <th style="width: 50px; text-align: center;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-table-body">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Column: Agent 2 - Financial Planner -->
+        <section class="card">
+          <div class="section-header">
+            <div class="title-with-pill">
+              <h2>Agent 2: Financial Planner</h2>
+              <span class="badge badge-purple">Forecasting & Affordability</span>
+            </div>
+            <p class="section-desc">Cash-flow forecasting and "Can I Afford This?" decision analysis.</p>
+          </div>
+
+          <!-- Affordability Verdict -->
+          <div class="affordability-card" id="affordability-verdict-box">
+            <div class="verdict-tag" id="verdict-tag">Decision: Affordable with Caution</div>
+            <p id="verdict-details">Purchasing the ₹50,000 Laptop leaves ₹70,000 liquidity, or ₹65,000 after paying the upcoming electricity bill.</p>
+          </div>
+
+          <!-- Cash Flow Forecasts -->
+          <div class="forecast-section">
+            <h3>Cash-Flow Forecast (30 / 60 / 90 Days)</h3>
+            <div class="forecast-grid" id="forecast-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="recommendations-section">
+            <h3>AI Recommendations</h3>
+            <ul id="recommendations-list" class="styled-list">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Modal: Add Expense -->
+    <div id="modal-add-tx" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>➕ Add New Transaction</h3>
+          <button class="modal-close" id="btn-close-add-tx">✕</button>
+        </div>
+        <form id="form-add-tx" class="modal-form">
+          <div class="form-group">
+            <label for="tx-merchant">Merchant / Description *</label>
+            <input type="text" id="tx-merchant" placeholder="e.g. Zomato, Starbucks, Nike, Gym" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="tx-amount">Amount (₹) *</label>
+              <input type="number" id="tx-amount" min="1" step="any" placeholder="e.g. 1200" required>
+            </div>
+            <div class="form-group">
+              <label for="tx-category">Category</label>
+              <select id="tx-category">
+                <option value="">🤖 Auto-Detect (AI Categorization)</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Bills">Bills</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tx-date">Date</label>
+            <input type="date" id="tx-date">
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="btn-cancel-add-tx">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Expense</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Edit Profile & Goals -->
+    <div id="modal-edit-profile" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>⚙️ Edit Financial Profile & Goals</h3>
+          <button class="modal-close" id="btn-close-profile">✕</button>
+        </div>
+        <form id="form-edit-profile" class="modal-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prof-balance">Current Main Balance (₹)</label>
+              <input type="number" id="prof-balance" required>
+            </div>
+            <div class="form-group">
+              <label for="prof-income">Monthly Income (₹)</label>
+              <input type="number" id="prof-income" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prof-expenses">Monthly Living Expenses (₹)</label>
+              <input type="number" id="prof-expenses" required>
+            </div>
+            <div class="form-group">
+              <label for="prof-bills">Upcoming Bills (₹)</label>
+              <input type="number" id="prof-bills" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prof-savings">Current Savings (₹)</label>
+              <input type="number" id="prof-savings" required>
+            </div>
+            <div class="form-group">
+              <label for="prof-savings-goal">Savings Target Goal (₹)</label>
+              <input type="number" id="prof-savings-goal" required>
+            </div>
+          </div>
+          <div class="form-divider">Planned Purchase (Affordability Test)</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prof-item">Item Name</label>
+              <input type="text" id="prof-item" placeholder="e.g. Laptop, iPhone 16, Vacation" required>
+            </div>
+            <div class="form-group">
+              <label for="prof-item-amount">Cost (₹)</label>
+              <input type="number" id="prof-item-amount" required>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="btn-cancel-profile">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Financial Buddy • Microsoft Azure AI Foundry Prototype • College Project Prototype</p>
+      <p class="text-muted">Simulated financial environment. No real bank accounts or external transactions involved.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
